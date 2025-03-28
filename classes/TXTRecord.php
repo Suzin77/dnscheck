@@ -12,9 +12,15 @@ class TXTRecord extends DNSRecord {
 
         if ($return_var === 0 && !empty($output)) {
             foreach ($output as $record) {
-                // Usuwamy cudzysłowy z początku i końca rekordu
-                $record = trim($record, '"');
-                $this->records[] = $record;
+                // Obsługa rekordów TXT z wieloma częściami
+                $parts = explode('" "', $record);
+                foreach ($parts as $part) {
+                    // Usuwamy cudzysłowy z początku i końca każdej części
+                    $part = trim($part, '"');
+                    if (!empty($part)) {
+                        $this->records[] = $part;
+                    }
+                }
             }
         }
 
@@ -26,8 +32,15 @@ class TXTRecord extends DNSRecord {
 
             if ($return_var === 0 && !empty($output)) {
                 foreach ($output as $record) {
-                    $record = trim($record, '"');
-                    $this->records[] = $record;
+                    // Obsługa rekordów TXT z wieloma częściami
+                    $parts = explode('" "', $record);
+                    foreach ($parts as $part) {
+                        // Usuwamy cudzysłowy z początku i końca każdej części
+                        $part = trim($part, '"');
+                        if (!empty($part)) {
+                            $this->records[] = $part;
+                        }
+                    }
                 }
             }
         }
