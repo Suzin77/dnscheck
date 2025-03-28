@@ -1,0 +1,33 @@
+# Ignoruj pliki systemowe
+.DS_Store
+Thumbs.db
+
+# Ignoruj pliki konfiguracyjne środowiska
+.env
+.env.local
+.env.*.local
+
+# Ignoruj pliki zależności
+/vendor/
+/node_modules/
+
+# Ignoruj pliki cache i logi
+*.log
+*.cache
+*.tmp
+
+# Ignoruj pliki IDE
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# Ignoruj pliki kompilacji
+*.compiled.php
+*.min.js
+*.min.css
+
+# Ignoruj pliki tymczasowe
+*.swp
+*.swo
+*~ 
