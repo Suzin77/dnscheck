@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sprawdzanie DNS</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
     <div class="container">
@@ -21,6 +22,40 @@
     </div>
 
     <script>
+        // Funkcja do kopiowania tekstu do schowka
+        async function copyToClipboard(text) {
+            try {
+                await navigator.clipboard.writeText(text);
+                return true;
+            } catch (err) {
+                console.error('Błąd podczas kopiowania:', err);
+                return false;
+            }
+        }
+
+        // Funkcja do tworzenia ikonki kopiowania
+        function createCopyIcon(text) {
+            const icon = document.createElement('i');
+            icon.className = 'fas fa-copy copy-icon copy-tooltip';
+            icon.innerHTML = '<span class="tooltip-text">Kopiuj do schowka</span>';
+            
+            icon.addEventListener('click', async () => {
+                const success = await copyToClipboard(text);
+                if (success) {
+                    icon.classList.add('copy-success');
+                    icon.classList.remove('fa-copy');
+                    icon.classList.add('fa-check');
+                    setTimeout(() => {
+                        icon.classList.remove('copy-success');
+                        icon.classList.remove('fa-check');
+                        icon.classList.add('fa-copy');
+                    }, 2000);
+                }
+            });
+            
+            return icon;
+        }
+
         document.getElementById('dnsForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             const domain = document.getElementById('domain').value;
@@ -62,7 +97,12 @@
                     html += `
                         <h3>Rekordy A:</h3>
                         <ul>
-                            ${data.a_records.map(ip => `<li>${ip}</li>`).join('')}
+                            ${data.a_records.map(ip => {
+                                const li = document.createElement('li');
+                                li.textContent = ip;
+                                li.appendChild(createCopyIcon(ip));
+                                return li.outerHTML;
+                            }).join('')}
                         </ul>
                     `;
                 }
@@ -71,7 +111,13 @@
                     html += `
                         <h3>Rekordy MX:</h3>
                         <ul>
-                            ${data.mx_records.map(mx => `<li>${mx.host} (priorytet: ${mx.priority})</li>`).join('')}
+                            ${data.mx_records.map(mx => {
+                                const text = `${mx.host} (priorytet: ${mx.priority})`;
+                                const li = document.createElement('li');
+                                li.textContent = text;
+                                li.appendChild(createCopyIcon(text));
+                                return li.outerHTML;
+                            }).join('')}
                         </ul>
                     `;
                 }
@@ -80,7 +126,12 @@
                     html += `
                         <h3>Serwery nazw (NS):</h3>
                         <ul>
-                            ${data.ns_records.map(ns => `<li>${ns}</li>`).join('')}
+                            ${data.ns_records.map(ns => {
+                                const li = document.createElement('li');
+                                li.textContent = ns;
+                                li.appendChild(createCopyIcon(ns));
+                                return li.outerHTML;
+                            }).join('')}
                         </ul>
                     `;
                 }
@@ -89,7 +140,12 @@
                     html += `
                         <h3>Rekordy TXT:</h3>
                         <ul>
-                            ${data.txt_records.map(txt => `<li>${txt}</li>`).join('')}
+                            ${data.txt_records.map(txt => {
+                                const li = document.createElement('li');
+                                li.textContent = txt;
+                                li.appendChild(createCopyIcon(txt));
+                                return li.outerHTML;
+                            }).join('')}
                         </ul>
                     `;
                 }
