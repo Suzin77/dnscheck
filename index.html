@@ -27,26 +27,16 @@
             var copyText = document.getElementById(inputId);
             copyText.select();
             copyText.setSelectionRange(0, 99999); // Dla urządzeń mobilnych
-            navigator.clipboard.writeText(copyText.value).then(() => {
-                alert('Skopiowano tekst: ' + copyText.value);
-            }).catch(err => {
+            navigator.clipboard.writeText(copyText.value).catch(err => {
                 console.error('Błąd podczas kopiowania:', err);
             });
-        }
-
-        // Funkcja do tworzenia ikonki kopiowania
-        function createCopyIcon(text) {
-            const icon = document.createElement('i');
-            icon.className = 'bi bi-clipboard copy-icon';
-            icon.addEventListener('click', () => copyTextFromInput(text));
-            return icon;
         }
 
         // Funkcja do generowania wpisów o domenie
         function generateDomainInfoEntry(label, value, inputId = null) {
             if (!value) return '';
             const inputField = inputId ? `<input type="text" value="${value}" id="${inputId}" style="display:none;">` : '';
-            const copyButton = inputId ? `<button onclick="copyTextFromInput('${inputId}')">Kopiuj</button>` : '';
+            const copyButton = inputId ? `<i class="bi bi-clipboard" onclick="copyTextFromInput('${inputId}')" style="cursor: pointer;"></i>` : '';
             return `
                 <li>
                     <strong>${label}:</strong> ${value}
@@ -68,7 +58,7 @@
                             <li>
                                 ${record}
                                 <input type="text" value="${record}" id="${inputId}" style="display:none;">
-                                <button onclick="copyTextFromInput('${inputId}')">Kopiuj</button>
+                                <i class="bi bi-clipboard" onclick="copyTextFromInput('${inputId}')" style="cursor: pointer;"></i>
                             </li>
                         `;
                     }).join('')}
