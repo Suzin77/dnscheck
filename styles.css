@@ -204,4 +204,29 @@ button:hover {
         padding: 5px;
         font-size: 13px;
     }
+}
+
+.registrar-info {
+    background-color: #f8f9fa;
+    padding: 10px;
+    border-radius: 4px;
+    margin: 5px 0;
+    white-space: pre-wrap;
+    font-family: monospace;
+    font-size: 14px;
+    border: 1px solid #dee2e6;
+}
+
+@media screen and (max-width: 768px) {
+    .registrar-info {
+        font-size: 13px;
+        padding: 8px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .registrar-info {
+        font-size: 12px;
+        padding: 6px;
+    }
 } 

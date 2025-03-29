@@ -85,28 +85,11 @@
                                     ${createCopyIcon(data.domain_info.status).outerHTML}
                                 </li>
                             ` : ''}
-                            ${data.domain_info.registrar.name ? `
+                            ${data.domain_info.registrar.info ? `
                                 <li>
-                                    <strong>Rejestrator:</strong> ${data.domain_info.registrar.name}
-                                    ${createCopyIcon(data.domain_info.registrar.name).outerHTML}
-                                </li>
-                            ` : ''}
-                            ${data.domain_info.registrar.url ? `
-                                <li>
-                                    <strong>Strona rejestratora:</strong> <a href="${data.domain_info.registrar.url}" target="_blank">${data.domain_info.registrar.url}</a>
-                                    ${createCopyIcon(data.domain_info.registrar.url).outerHTML}
-                                </li>
-                            ` : ''}
-                            ${data.domain_info.registrar.phone ? `
-                                <li>
-                                    <strong>Telefon rejestratora:</strong> ${data.domain_info.registrar.phone}
-                                    ${createCopyIcon(data.domain_info.registrar.phone).outerHTML}
-                                </li>
-                            ` : ''}
-                            ${data.domain_info.registrar.email ? `
-                                <li>
-                                    <strong>Email rejestratora:</strong> ${data.domain_info.registrar.email}
-                                    ${createCopyIcon(data.domain_info.registrar.email).outerHTML}
+                                    <strong>Informacje o rejestratorze:</strong>
+                                    <pre class="registrar-info">${data.domain_info.registrar.info}</pre>
+                                    ${createCopyIcon(data.domain_info.registrar.info).outerHTML}
                                 </li>
                             ` : ''}
                             ${data.domain_info.registrant ? `

@@ -3,9 +3,7 @@
 class DomainInfo {
     private $domain;
     private $registrar = '';
-    private $registrarUrl = '';
-    private $registrarPhone = '';
-    private $registrarEmail = '';
+    private $registrarInfo = '';
     private $registrant = '';
     private $creationDate = '';
     private $expirationDate = '';
@@ -22,7 +20,7 @@ class DomainInfo {
         }
 
         // Pobieranie informacji WHOIS przez WSL
-        $command = "whois " . escapeshellarg($this->domain);
+        $command = "wsl whois " . escapeshellarg($this->domain);
         exec($command, $output, $return_var);
 
         if ($return_var === 0 && !empty($output)) {
@@ -32,20 +30,10 @@ class DomainInfo {
             if (preg_match('/REGISTRAR:\s*(.+)$/m', $whois, $matches)) {
                 $this->registrar = trim($matches[1]);
             }
-            
-            // URL rejestratora
-            if (preg_match('/https?:\/\/[^\s]+/m', $whois, $matches)) {
-                $this->registrarUrl = trim($matches[0]);
-            }
-            
-            // Telefon rejestratora
-            if (preg_match('/Tel:\s*(.+)$/m', $whois, $matches)) {
-                $this->registrarPhone = trim($matches[1]);
-            }
-            
-            // Email rejestratora
-            if (preg_match('/Email:\s*(.+)$/m', $whois, $matches)) {
-                $this->registrarEmail = trim($matches[1]);
+
+            // Pobieranie całego bloku informacji o rejestratorze
+            if (preg_match('/REGISTRAR:[\s\S]*?(?=\n\n|\Z)/m', $whois, $matches)) {
+                $this->registrarInfo = trim($matches[0]);
             }
             
             // Próba wyciągnięcia informacji o właścicielu
@@ -84,9 +72,7 @@ class DomainInfo {
         return [
             'registrar' => [
                 'name' => $this->registrar,
-                'url' => $this->registrarUrl,
-                'phone' => $this->registrarPhone,
-                'email' => $this->registrarEmail
+                'info' => $this->registrarInfo
             ],
             'registrant' => $this->registrant,
             'dates' => [
