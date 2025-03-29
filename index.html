@@ -66,6 +66,17 @@
             `;
         }
 
+        // Funkcja do generowania wpisu o rejestratorze
+        function generateRegistrarInfoEntry(info) {
+            if (!info) return '';
+            return `
+                <h3>Informacje o rejestratorze:</h3>
+                <pre class="registrar-info">${info}</pre>
+                <i class="bi bi-clipboard" onclick="copyTextFromInput('registrarInfoInput')" style="cursor: pointer;"></i>
+                <input type="text" value="${info}" id="registrarInfoInput" style="display:none;">
+            `;
+        }
+
         document.getElementById('dnsForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             const domain = document.getElementById('domain').value;
@@ -107,7 +118,7 @@
                         <h3>Informacje o domenie:</h3>
                         <ul>
                             ${generateDomainInfoEntry('Status', data.domain_info.status, 'statusInput')}
-                            ${generateDomainInfoEntry('Informacje o rejestratorze', data.domain_info.registrar.info, 'registrarInfoInput')}
+                            ${generateRegistrarInfoEntry(data.domain_info.registrar.info)}
                             ${generateDomainInfoEntry('Właściciel', data.domain_info.registrant, 'registrantInput')}
                             ${generateDomainInfoEntry('Data utworzenia', data.domain_info.dates.creation, 'creationDateInput')}
                             ${generateDomainInfoEntry('Data ostatniej modyfikacji', data.domain_info.dates.last_modified, 'lastModifiedDateInput')}
