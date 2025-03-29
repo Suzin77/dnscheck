@@ -85,10 +85,28 @@
                                     ${createCopyIcon(data.domain_info.status).outerHTML}
                                 </li>
                             ` : ''}
-                            ${data.domain_info.registrar ? `
+                            ${data.domain_info.registrar.name ? `
                                 <li>
-                                    <strong>Rejestrator:</strong> ${data.domain_info.registrar}
-                                    ${createCopyIcon(data.domain_info.registrar).outerHTML}
+                                    <strong>Rejestrator:</strong> ${data.domain_info.registrar.name}
+                                    ${createCopyIcon(data.domain_info.registrar.name).outerHTML}
+                                </li>
+                            ` : ''}
+                            ${data.domain_info.registrar.url ? `
+                                <li>
+                                    <strong>Strona rejestratora:</strong> <a href="${data.domain_info.registrar.url}" target="_blank">${data.domain_info.registrar.url}</a>
+                                    ${createCopyIcon(data.domain_info.registrar.url).outerHTML}
+                                </li>
+                            ` : ''}
+                            ${data.domain_info.registrar.phone ? `
+                                <li>
+                                    <strong>Telefon rejestratora:</strong> ${data.domain_info.registrar.phone}
+                                    ${createCopyIcon(data.domain_info.registrar.phone).outerHTML}
+                                </li>
+                            ` : ''}
+                            ${data.domain_info.registrar.email ? `
+                                <li>
+                                    <strong>Email rejestratora:</strong> ${data.domain_info.registrar.email}
+                                    ${createCopyIcon(data.domain_info.registrar.email).outerHTML}
                                 </li>
                             ` : ''}
                             ${data.domain_info.registrant ? `
@@ -97,16 +115,22 @@
                                     ${createCopyIcon(data.domain_info.registrant).outerHTML}
                                 </li>
                             ` : ''}
-                            ${data.domain_info.creation_date ? `
+                            ${data.domain_info.dates.creation ? `
                                 <li>
-                                    <strong>Data utworzenia:</strong> ${data.domain_info.creation_date}
-                                    ${createCopyIcon(data.domain_info.creation_date).outerHTML}
+                                    <strong>Data utworzenia:</strong> ${data.domain_info.dates.creation}
+                                    ${createCopyIcon(data.domain_info.dates.creation).outerHTML}
                                 </li>
                             ` : ''}
-                            ${data.domain_info.expiration_date ? `
+                            ${data.domain_info.dates.last_modified ? `
                                 <li>
-                                    <strong>Data wygaśnięcia:</strong> ${data.domain_info.expiration_date}
-                                    ${createCopyIcon(data.domain_info.expiration_date).outerHTML}
+                                    <strong>Data ostatniej modyfikacji:</strong> ${data.domain_info.dates.last_modified}
+                                    ${createCopyIcon(data.domain_info.dates.last_modified).outerHTML}
+                                </li>
+                            ` : ''}
+                            ${data.domain_info.dates.expiration ? `
+                                <li>
+                                    <strong>Data wygaśnięcia:</strong> ${data.domain_info.dates.expiration}
+                                    ${createCopyIcon(data.domain_info.dates.expiration).outerHTML}
                                 </li>
                             ` : ''}
                         </ul>
