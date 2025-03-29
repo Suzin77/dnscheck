@@ -79,6 +79,12 @@
                     html += `
                         <h3>Informacje o domenie:</h3>
                         <ul>
+                            ${data.domain_info.status ? `
+                                <li>
+                                    <strong>Status:</strong> ${data.domain_info.status}
+                                    ${createCopyIcon(data.domain_info.status).outerHTML}
+                                </li>
+                            ` : ''}
                             ${data.domain_info.registrar ? `
                                 <li>
                                     <strong>Rejestrator:</strong> ${data.domain_info.registrar}

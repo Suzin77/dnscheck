@@ -6,6 +6,7 @@ class DomainInfo {
     private $registrant = '';
     private $creationDate = '';
     private $expirationDate = '';
+    private $status = '';
 
     public function __construct(string $domain) {
         $this->domain = $domain;
@@ -42,13 +43,26 @@ class DomainInfo {
             if (preg_match('/renewal date:\s*(.+)$/m', $whois, $matches)) {
                 $this->expirationDate = trim($matches[1]);
             }
+
+            // Status domeny
+            if (preg_match('/status:\s*(.+)$/m', $whois, $matches)) {
+                $this->status = trim($matches[1]);
+            } else {
+                // Jeśli nie znaleziono statusu, sprawdź czy domena jest aktywna
+                if (strpos($whois, 'renewal date:') !== false) {
+                    $this->status = 'Aktywna';
+                } else {
+                    $this->status = 'Status nieznany';
+                }
+            }
         }
 
         return [
             'registrar' => $this->registrar,
             'registrant' => $this->registrant,
             'creation_date' => $this->creationDate,
-            'expiration_date' => $this->expirationDate
+            'expiration_date' => $this->expirationDate,
+            'status' => $this->status
         ];
     }
 
