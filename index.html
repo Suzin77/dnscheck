@@ -42,6 +42,40 @@
             return icon;
         }
 
+        // Funkcja do generowania wpisów o domenie
+        function generateDomainInfoEntry(label, value, inputId = null) {
+            if (!value) return '';
+            const inputField = inputId ? `<input type="text" value="${value}" id="${inputId}" style="display:none;">` : '';
+            const copyButton = inputId ? `<button onclick="copyTextFromInput('${inputId}')">Kopiuj</button>` : '';
+            return `
+                <li>
+                    <strong>${label}:</strong> ${value}
+                    ${inputField}
+                    ${copyButton}
+                </li>
+            `;
+        }
+
+        // Funkcja do generowania wpisów dla rekordów domeny
+        function generateDomainRecordEntry(label, records) {
+            if (!records || records.length === 0) return '';
+            return `
+                <h3>${label}:</h3>
+                <ul>
+                    ${records.map(record => {
+                        const inputId = `${label.replace(/\s+/g, '')}Input`;
+                        return `
+                            <li>
+                                ${record}
+                                <input type="text" value="${record}" id="${inputId}" style="display:none;">
+                                <button onclick="copyTextFromInput('${inputId}')">Kopiuj</button>
+                            </li>
+                        `;
+                    }).join('')}
+                </ul>
+            `;
+        }
+
         document.getElementById('dnsForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             const domain = document.getElementById('domain').value;
@@ -82,116 +116,34 @@
                     html += `
                         <h3>Informacje o domenie:</h3>
                         <ul>
-                            ${data.domain_info.status ? `
-                                <li>
-                                    <strong>Status:</strong> ${data.domain_info.status}
-                                    ${createCopyIcon(data.domain_info.status).outerHTML}
-                                </li>
-                            ` : ''}
-                            ${data.domain_info.registrar.info ? `
-                                <li>
-                                    <strong>Informacje o rejestratorze:</strong>
-                                    <pre class="registrar-info">${data.domain_info.registrar.info}</pre>
-                                    ${createCopyIcon(data.domain_info.registrar.info).outerHTML}
-                                </li>
-                            ` : ''}
-                            ${data.domain_info.registrant ? `
-                                <li>
-                                    <strong>Właściciel:</strong> ${data.domain_info.registrant}
-                                    ${createCopyIcon(data.domain_info.registrant).outerHTML}
-                                </li>
-                            ` : ''}
-                            ${data.domain_info.dates.creation ? `
-                                <li>
-                                    <strong>Data utworzenia:</strong> ${data.domain_info.dates.creation}
-                                    ${createCopyIcon(data.domain_info.dates.creation).outerHTML}
-                                </li>
-                            ` : ''}
-                            ${data.domain_info.dates.last_modified ? `
-                                <li>
-                                    <strong>Data ostatniej modyfikacji:</strong> ${data.domain_info.dates.last_modified}
-                                    ${createCopyIcon(data.domain_info.dates.last_modified).outerHTML}
-                                </li>
-                            ` : ''}
-                            ${data.domain_info.dates.expiration ? `
-                                <li>
-                                    <strong>Data wygaśnięcia:</strong> ${data.domain_info.dates.expiration}
-                                    ${createCopyIcon(data.domain_info.dates.expiration).outerHTML}
-                                </li>
-                            ` : ''}
+                            ${generateDomainInfoEntry('Status', data.domain_info.status, 'statusInput')}
+                            ${generateDomainInfoEntry('Informacje o rejestratorze', data.domain_info.registrar.info, 'registrarInfoInput')}
+                            ${generateDomainInfoEntry('Właściciel', data.domain_info.registrant, 'registrantInput')}
+                            ${generateDomainInfoEntry('Data utworzenia', data.domain_info.dates.creation, 'creationDateInput')}
+                            ${generateDomainInfoEntry('Data ostatniej modyfikacji', data.domain_info.dates.last_modified, 'lastModifiedDateInput')}
+                            ${generateDomainInfoEntry('Data wygaśnięcia', data.domain_info.dates.expiration, 'expirationDateInput')}
                         </ul>
                     `;
                 }
 
                 if (data.a_records.length > 0) {
-                    html += `
-                        <h3>Rekordy A:</h3>
-                        <ul>
-                            ${data.a_records.map(ip => {
-                                const li = document.createElement('li');
-                                li.textContent = ip;
-                                li.appendChild(createCopyIcon(ip));
-                                return li.outerHTML;
-                            }).join('')}
-                        </ul>
-                    `;
+                    html += generateDomainRecordEntry('Rekordy A', data.a_records);
                 }
 
                 if (data.mx_records.length > 0) {
-                    html += `
-                        <h3>Rekordy MX:</h3>
-                        <ul>
-                            ${data.mx_records.map(mx => {
-                                const text = `${mx.host} (priorytet: ${mx.priority})`;
-                                const li = document.createElement('li');
-                                li.textContent = text;
-                                li.appendChild(createCopyIcon(text));
-                                return li.outerHTML;
-                            }).join('')}
-                        </ul>
-                    `;
+                    html += generateDomainRecordEntry('Rekordy MX', data.mx_records);
                 }
 
                 if (data.ns_records.length > 0) {
-                    html += `
-                        <h3>Serwery nazw (NS):</h3>
-                        <ul>
-                            ${data.ns_records.map(ns => {
-                                const li = document.createElement('li');
-                                li.textContent = ns;
-                                li.appendChild(createCopyIcon(ns));
-                                return li.outerHTML;
-                            }).join('')}
-                        </ul>
-                    `;
+                    html += generateDomainRecordEntry('Serwery nazw (NS)', data.ns_records);
                 }
 
                 if (data.cname_records.length > 0) {
-                    html += `
-                        <h3>Rekordy CNAME:</h3>
-                        <ul>
-                            ${data.cname_records.map(cname => {
-                                const li = document.createElement('li');
-                                li.textContent = cname;
-                                li.appendChild(createCopyIcon(cname));
-                                return li.outerHTML;
-                            }).join('')}
-                        </ul>
-                    `;
+                    html += generateDomainRecordEntry('Rekordy CNAME', data.cname_records);
                 }
 
                 if (data.txt_records.length > 0) {
-                    html += `
-                        <h3>Rekordy TXT:</h3>
-                        <ul>
-                            ${data.txt_records.map(txt => {
-                                const li = document.createElement('li');
-                                li.textContent = txt;
-                                li.appendChild(createCopyIcon(txt));
-                                return li.outerHTML;
-                            }).join('')}
-                        </ul>
-                    `;
+                    html += generateDomainRecordEntry('Rekordy TXT', data.txt_records);
                 }
 
                 html += '</div>';
