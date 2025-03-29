@@ -117,6 +117,20 @@
                     `;
                 }
 
+                if (data.cname_records.length > 0) {
+                    html += `
+                        <h3>Rekordy CNAME:</h3>
+                        <ul>
+                            ${data.cname_records.map(cname => {
+                                const li = document.createElement('li');
+                                li.textContent = cname;
+                                li.appendChild(createCopyIcon(cname));
+                                return li.outerHTML;
+                            }).join('')}
+                        </ul>
+                    `;
+                }
+
                 if (data.txt_records.length > 0) {
                     html += `
                         <h3>Rekordy TXT:</h3>
