@@ -16,7 +16,7 @@ class DomainInfo {
             return [];
         }
 
-        // Pobieranie informacji WHOIS
+        // Pobieranie informacji WHOIS przez WSL
         $command = "whois " . escapeshellarg($this->domain);
         exec($command, $output, $return_var);
 
@@ -24,22 +24,22 @@ class DomainInfo {
             $whois = implode("\n", $output);
             
             // Próba wyciągnięcia informacji o rejestratorze
-            if (preg_match('/Registrar:\s*(.+)$/m', $whois, $matches)) {
+            if (preg_match('/REGISTRAR:\s*(.+)$/m', $whois, $matches)) {
                 $this->registrar = trim($matches[1]);
             }
             
             // Próba wyciągnięcia informacji o właścicielu
-            if (preg_match('/Registrant Name:\s*(.+)$/m', $whois, $matches)) {
+            if (preg_match('/registrant type:\s*(.+)$/m', $whois, $matches)) {
                 $this->registrant = trim($matches[1]);
             }
             
             // Data utworzenia domeny
-            if (preg_match('/Creation Date:\s*(.+)$/m', $whois, $matches)) {
+            if (preg_match('/created:\s*(.+)$/m', $whois, $matches)) {
                 $this->creationDate = trim($matches[1]);
             }
             
             // Data wygaśnięcia domeny
-            if (preg_match('/Expiration Date:\s*(.+)$/m', $whois, $matches)) {
+            if (preg_match('/renewal date:\s*(.+)$/m', $whois, $matches)) {
                 $this->expirationDate = trim($matches[1]);
             }
         }
