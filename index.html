@@ -54,10 +54,11 @@
                 <ul>
                     ${records.map(record => {
                         const inputId = `${label.replace(/\s+/g, '')}Input`;
+                        const recordText = typeof record === 'object' ? `${record.host} (priorytet: ${record.priority})` : record;
                         return `
                             <li>
-                                ${record}
-                                <input type="text" value="${record}" id="${inputId}" style="display:none;">
+                                ${recordText}
+                                <input type="text" value="${recordText}" id="${inputId}" style="display:none;">
                                 <i class="bi bi-clipboard" onclick="copyTextFromInput('${inputId}')" style="cursor: pointer;"></i>
                             </li>
                         `;
