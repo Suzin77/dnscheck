@@ -24,8 +24,10 @@
     <script>
         // Funkcja do kopiowania tekstu do schowka
         async function copyToClipboard(text) {
+            console.log('Próba kopiowania:', text); // Log przed próbą kopiowania
             try {
                 await navigator.clipboard.writeText(text);
+                console.log('Pomyślnie skopiowano:', text); // Log po pomyślnym skopiowaniu
             } catch (err) {
                 console.error('Błąd podczas kopiowania:', err);
             }
