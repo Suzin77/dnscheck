@@ -19,8 +19,8 @@ class DomainInfo {
             return [];
         }
 
-        // Pobieranie informacji WHOIS przez WSL
-        $command = "wsl whois " . escapeshellarg($this->domain);
+        // Pobieranie informacji WHOIS
+        $command = "whois " . escapeshellarg($this->domain);
         exec($command, $output, $return_var);
 
         if ($return_var === 0 && !empty($output)) {
