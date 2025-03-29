@@ -54,7 +54,7 @@
                 <ul>
                     ${records.map(record => {
                         const inputId = `${label.replace(/\s+/g, '')}Input`;
-                        const recordText = typeof record === 'object' ? `${record.host} (priorytet: ${record.priority})` : record;
+                        const recordText = typeof record === 'object' ? `${record.priority} ${record.host}` : record;
                         return `
                             <li>
                                 ${recordText}
