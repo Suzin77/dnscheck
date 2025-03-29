@@ -17,9 +17,11 @@ class DNSChecker {
         $ns_record = new NSRecord($this->domain);
         $txt_record = new TXTRecord($this->domain);
         $cname_record = new CNAMERecord($this->domain);
+        $domain_info = new DomainInfo($this->domain);
 
         return [
             'domain' => $this->domain,
+            'domain_info' => $domain_info->check(),
             'a_records' => $a_record->check(),
             'mx_records' => $mx_record->check(),
             'ns_records' => $ns_record->check(),

@@ -74,6 +74,39 @@
                         <h2>Wyniki dla domeny: ${data.domain}</h2>
                 `;
 
+                // Wyświetlanie informacji o domenie
+                if (data.domain_info && Object.values(data.domain_info).some(value => value)) {
+                    html += `
+                        <h3>Informacje o domenie:</h3>
+                        <ul>
+                            ${data.domain_info.registrar ? `
+                                <li>
+                                    <strong>Rejestrator:</strong> ${data.domain_info.registrar}
+                                    ${createCopyIcon(data.domain_info.registrar).outerHTML}
+                                </li>
+                            ` : ''}
+                            ${data.domain_info.registrant ? `
+                                <li>
+                                    <strong>Właściciel:</strong> ${data.domain_info.registrant}
+                                    ${createCopyIcon(data.domain_info.registrant).outerHTML}
+                                </li>
+                            ` : ''}
+                            ${data.domain_info.creation_date ? `
+                                <li>
+                                    <strong>Data utworzenia:</strong> ${data.domain_info.creation_date}
+                                    ${createCopyIcon(data.domain_info.creation_date).outerHTML}
+                                </li>
+                            ` : ''}
+                            ${data.domain_info.expiration_date ? `
+                                <li>
+                                    <strong>Data wygaśnięcia:</strong> ${data.domain_info.expiration_date}
+                                    ${createCopyIcon(data.domain_info.expiration_date).outerHTML}
+                                </li>
+                            ` : ''}
+                        </ul>
+                    `;
+                }
+
                 if (data.a_records.length > 0) {
                     html += `
                         <h3>Rekordy A:</h3>

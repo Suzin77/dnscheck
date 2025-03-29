@@ -7,6 +7,7 @@ require_once 'classes/MXRecord.php';
 require_once 'classes/NSRecord.php';
 require_once 'classes/TXTRecord.php';
 require_once 'classes/CNAMERecord.php';
+require_once 'classes/DomainInfo.php';
 require_once 'classes/DNSChecker.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
