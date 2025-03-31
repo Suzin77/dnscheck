@@ -149,10 +149,16 @@
                 }
 
                 // Dodaj element HTML do wyświetlania surowej odpowiedzi z whois
-                html += `
-                    <h3>Raw WHOIS:</h3>
-                    <pre class="raw-whois">${data.raw_whois || 'Brak danych'}</pre>
-                `;
+                if (data.raw_whois) {
+                    html += `
+                        <div class="raw-whois-section">
+                            <h3>Raw WHOIS:</h3>
+                            <pre class="raw-whois">${data.raw_whois}</pre>
+                            <input type="text" value="${data.raw_whois}" id="rawWhoisInput" style="display:none;">
+                            <i class="bi bi-clipboard" onclick="copyTextFromInput('rawWhoisInput')" style="cursor: pointer;"></i>
+                        </div>
+                    `;
+                }
 
                 html += '</div>';
                 resultDiv.innerHTML = html;
