@@ -21,7 +21,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     file_put_contents('logs/log.txt', $logEntry, FILE_APPEND);
 
     $checker = new DNSChecker($domain);
-    echo json_encode($checker->checkAll());
+    $result = $checker->checkAll();
+    $result['raw_whois'] = $checker->getRawWhois();
+
+    echo json_encode($result);
 } else {
     echo json_encode(['error' => 'Nieprawidłowa metoda żądania']);
 } 

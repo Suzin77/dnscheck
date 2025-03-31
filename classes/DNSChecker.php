@@ -29,4 +29,10 @@ class DNSChecker {
             'cname_records' => $cname_record->check()
         ];
     }
+
+    public function getRawWhois() {
+        $command = "wsl whois {$this->domain}";
+        exec($command, $output, $returnVar);
+        return implode("\n", $output);
+    }
 } 
