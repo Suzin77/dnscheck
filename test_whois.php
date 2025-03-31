@@ -4,7 +4,7 @@
 $domain = 'google.com';
 
 // Wykonaj komendę whois
-$command = "wsl whois $domain";
+$command = "whois $domain";
 exec($command, $output, $returnVar);
 
 // Zapisz wynik do pliku

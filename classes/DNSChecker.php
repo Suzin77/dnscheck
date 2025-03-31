@@ -31,7 +31,7 @@ class DNSChecker {
     }
 
     public function getRawWhois() {
-        $command = "wsl whois {$this->domain}";
+        $command = "whois {$this->domain}";
         exec($command, $output, $returnVar);
         return implode("\n", $output);
     }
