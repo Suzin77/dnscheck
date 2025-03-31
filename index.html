@@ -148,6 +148,12 @@
                     html += generateDomainRecordEntry('Rekordy TXT', data.txt_records);
                 }
 
+                // Dodaj element HTML do wyświetlania surowej odpowiedzi z whois
+                html += `
+                    <h3>Raw WHOIS:</h3>
+                    <pre class="raw-whois">${data.raw_whois || 'Brak danych'}</pre>
+                `;
+
                 html += '</div>';
                 resultDiv.innerHTML = html;
 
